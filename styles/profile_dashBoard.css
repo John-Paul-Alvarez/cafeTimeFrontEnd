@@ -1,0 +1,234 @@
+/* ===== Theme ===== */
+:root{
+  --bg:#F7F2E7;
+  --card:#ffffff;
+  --ink:#1f2937;
+  --muted:#7c6f67;
+  --border:#ece7e2;
+  --accent:#4E3B31; /* orange */
+  --accent-ink:#fff;
+  --chip:#fff3e6;
+  --shadow:0 2px 10px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+  color:var(--ink);
+  background:var(--bg);
+}
+
+/* ===== Navbar ===== */
+/* ===== Navbar (edge-aligned) ===== */
+.ct-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+
+/* Use grid to lock logo & cart to edges */
+.ct-nav-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* left / center / right */
+  align-items: center;
+  width: 100%;
+  padding: 0 48px; /* space from edges */
+}
+
+.ct-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 22px;
+  justify-self: start; /* sticks left */
+}
+
+.ct-cup {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #000;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  display: inline-block;
+}
+.ct-cup:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: -9px;
+  height: 9px;
+  background: #e11d2f;
+  border-radius: 0 0 14px 14px;
+}
+
+/* Keep the search bar exactly as is, just centered */
+.ct-search {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1edeb;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 28px;
+  width: 100%;
+  max-width: 600px;
+}
+.ct-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 16px;
+  color: #6b5f57;
+}
+.ct-search-icon {
+  width: 18px;
+  height: 18px;
+  fill: #a0938a;
+}
+
+/* Cart on far right */
+.ct-cart {
+  position: relative;
+  justify-self: end;
+  color: inherit;
+}
+
+.ct-cart-icon {
+  width: 28px;
+  height: 28px;
+  fill: #2a2a2a;
+}
+
+.ct-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e11d2f;
+  color: #fff;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+/* ===== Page Header ===== */
+.ct-page-header{max-width:1180px;margin:28px auto 12px;padding:0 16px}
+.ct-page-header h1{margin:0 0 6px 0;font-weight:800;letter-spacing:.2px}
+.ct-subtle{color:var(--muted);margin:0}
+.ct-page-links{margin-top:10px;display:flex;gap:14px}
+.ct-page-links a{color:#8b5a2b;text-decoration:none}
+
+/* ===== Layout ===== */
+.profile-layout{
+  display:grid;
+  grid-template-columns: 320px 1fr;
+  gap:20px;
+  max-width:1180px;
+  margin:6px auto 60px;
+  padding:0 16px;
+}
+.left-col,.right-col{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:16px}
+
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #efe6dd}
+.kv:last-child{border-bottom:none}
+.list-links{list-style:none;margin:0;padding:0}
+.list-links li{padding:8px 0}
+.list-links a{display:block;background:#fff4ea;border:1px solid #ffe6cf;color:#8b5a2b;border-radius:10px;padding:10px 12px;text-decoration:none}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+.spacer-6{height:6px}
+.plain-link{color:#8b5a2b;text-decoration:none}
+
+.pill-btn{padding:10px 16px;background:var(--accent);color:var(--accent-ink);border-radius:999px;text-decoration:none;border:none}
+
+/* ===== Menu Preview ===== */
+.menu-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.menu-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px}
+.menu-card-imgwrap{position:relative}
+.menu-card img{width:100%;height:130px;object-fit:cover;border-radius:10px}
+.menu-add {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 2px solid #fff;   /* <-- White circular border */
+    background: var(--accent);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
+
+.menu-card .title{margin-top:8px;font-weight:700}
+.menu-card .price{font-size:14px;color:var(--muted);margin-top:2px}
+/* Center the "View Full Menu" button below the grid */
+.menu-btn-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.pill-btn {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 999px;
+  text-decoration: none;
+  border: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.pill-btn:hover {
+  background: #f08a24; /* slightly darker orange */
+}
+
+
+/* ===== Orders Table ===== */
+.orders-table-wrap{overflow:auto}
+.orders-table{width:100%;border-collapse:collapse}
+.orders-table th,.orders-table td{padding:14px 10px;border-bottom:1px solid var(--border);text-align:left}
+.orders-table th{color:#6b5f57;font-weight:700}
+.orders-table td:last-child{text-align:right}
+.order-again{color:#f08a24;text-decoration:none;font-weight:700}
+
+/* ===== Buttons ===== */
+button.secondary{background:#fff;border:1px solid #e5d3c5;color:#8b5a2b;padding:8px 12px;border-radius:10px;cursor:pointer}
+
+/* ===== Responsive ===== */
+@media (max-width: 960px){
+  .profile-layout{grid-template-columns:1fr}
+  .menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+
+.navbar-frame {
+  width: 100%;
+  height: 70px;
+  border: none;
+  display: block;
+}
+
+

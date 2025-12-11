@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Cart Summary</title>
+  <link rel="stylesheet" href="../styles/styles.css" />
+  <!-- <script>
+    // If already logged in, redirect to dashboard
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      window.location.href = "homepage.html";
+    }
+  </script> -->
+
+  <!-- <script type="module">
+    import { requireAuth } from "../scripts/auth.js";
+
+    // Check auth before showing cart
+    requireAuth();
+  </script> -->
+
+  <script type="module">
+    const token = localStorage.getItem("authToken");
+    const guest = localStorage.getItem("guestMode") === "1";
+    if (!token && !guest) {
+      const here = location.pathname.split("/").pop() || "newMenuPage.html";
+      sessionStorage.setItem("postAddressRedirect", here);
+      // IMPORTANT: send to the GUEST page (sets guestMode)
+      //window.location.href = "guessAndAddress_form.html";
+    }
+  </script>
+<style>
+  .navbar-frame {
+  width: 100%;
+  height: 70px;
+  border: none;
+  display: block;
+}
+</style>
+</head>
+
+<body>
+<!-- ===== Top Navbar ===== -->
+    <iframe src="navbar.html" class="navbar-frame"></iframe>
+
+  <div class="container">
+    <h1>Your Shopping Cart</h1>
+    <div id="deliver-to" style="margin:12px 0;padding:10px;border:1px solid #ddd;border-radius:8px;"></div>
+
+    <table class="cart-table" id="cart-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Customization</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cart-contents">
+        <!-- Cart Items will be dynamically inserted here via JavaScript -->
+      </tbody>
+    </table>
+
+    <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+
+    <p id="empty-cart" style="display:none;">
+      🛒 Your cart is currently empty. Add something delicious!
+    </p>
+
+    <div class="cart-buttons">
+      <a href="newMenuPage.html" class="btn cafe-btn">← Back to Menu</a>
+      <a href="guest_checkout.html" class="btn cafe-btn ">Contiue as Guest</a>
+      <a href="checkout.html" class="btn cafe-btn primary">Proceed to Checkout →</a>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/cart.js"></script>
+</body>
+
+</html>

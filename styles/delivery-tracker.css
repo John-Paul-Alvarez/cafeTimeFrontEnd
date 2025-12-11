@@ -1,0 +1,490 @@
+:root {
+  --border: #e5e7eb;
+  --muted: #6b7280;
+  --bg: #f7f5f3;
+  --card: #fff;
+  --accent: #4E3B31;
+  --blue: #2563eb;
+}
+
+/* ===== Layout ===== */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #1f2937;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+}
+
+.delivery-layout {
+  display: grid;
+  grid-template-columns: 38% 62%; /* Slightly wider left panel */
+  height: calc(100vh - 70px);
+}
+
+
+@media (max-width: 1200px) {
+  .delivery-layout {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (max-width: 900px) {
+  .delivery-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-map {
+    height: 400px; /* Stacked layout on mobile */
+  }
+}
+
+/* ===== Left Info Panel ===== */
+.delivery-info {
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  padding: 32px 28px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.delivery-info h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ===== Steps (Delivery Status Bar) ===== */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.status-bar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 3px;
+  background: #e5e7eb;
+  z-index: 0;
+}
+
+.step {
+  position: relative;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  flex: 1;
+  z-index: 1;
+}
+
+.step::after {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  margin: 6px auto 0;
+}
+
+.step.completed {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.step.completed::after {
+  background: var(--accent);
+}
+
+.step.active {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.step.active::after {
+  background: var(--blue);
+}
+
+/* ===== Info Cards ===== */
+.info-card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.info-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Status Pill */
+.pill {
+  background: #eef2ff;
+  color: #3730a3;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pill.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pill.onway {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.pill.preparing {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+/* Error */
+.error {
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* ===== Map ===== */
+.delivery-map {
+  width: 100%;
+  height: calc(100vh - 70px);
+  border-radius: 16px 0 0 16px;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Scrollbar ===== */
+.delivery-info::-webkit-scrollbar {
+  width: 8px;
+}
+.delivery-info::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 8px;
+}
+.delivery-info::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}
+
+/*=================================================================*/
+
+
+
+
+
+
+
+
+
+/* ===== Delivery Status Card ===== */
+.delivery-status-card {
+  text-align: center;
+  padding: 28px 24px 36px;
+  border-radius: 20px;
+  background: #fff !important;
+}
+
+.delivery-status-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+/* --- Step Container --- */
+.status-steps {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+   background: transparent !important;
+}
+
+/* Background line */
+.status-steps .progress-line {
+  position: absolute;
+  top: 25px;
+  left: 10%;
+  right: 10%;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 3px;
+  z-index: 0;
+}
+
+/* Steps */
+.step {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  flex: 1;
+  color: #6d6d6d;
+}
+
+.step p {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Circles */
+.step .circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f3f3f3;
+  margin: 0 auto;
+  border: 4px solid #fff;
+  box-shadow: 0 0 0 3px #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.step.completed .circle {
+  background: #f59e0b;
+  color: #fff;
+  box-shadow: 0 0 0 3px #fde68a;
+}
+
+.step.active .circle {
+  background: #fef3c7;
+  box-shadow: 0 0 0 3px #f59e0b;
+}
+
+.step.completed p {
+  color: #f59e0b;
+}
+
+.step.active p {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* Animated progress overlay */
+.status-steps::after {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 10%;
+  height: 6px;
+  width: 60%; /* Adjust based on progress */
+  background: #f59e0b;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+
+/* ===== Floating Arrival Modal (center-right inside the map) ===== */
+.arrival-modal {
+  position: absolute;
+  top: 100px; /* 👈 moves it down below navbar */
+  left: calc(70%); /* 👈 roughly center-right of map area */
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  padding: 16px 24px;
+  text-align: left;
+  width: fit-content;
+  min-width: 260px;
+  max-width: 360px;
+  z-index: 1000;
+  border: 1px solid #f3f3f3;
+  transition: all 0.3s ease;
+}
+
+/* Title */
+.arrival-modal h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1b1b1b;
+}
+
+/* Subtext */
+.arrival-modal p {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: #8b6f57;
+}
+
+
+
+
+
+/* ===== Delivered Confirmation Modal ===== */
+.delivered-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.45);
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.delivered-modal-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 40px;
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  animation: fadeInScale 0.3s ease forwards;
+}
+
+.delivered-modal-content h2 {
+  margin-top: 0;
+  color: #1f2937;
+  font-size: 24px;
+}
+
+.delivered-modal-content p {
+  color: #6b5f57;
+  font-size: 16px;
+  margin: 12px 0 24px;
+}
+
+.delivered-modal-content button {
+  background: #4E3B31;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.delivered-modal-content button:hover {
+  background: #f59e0b;
+}
+
+/* Animation */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+
+
+ /* removes the faint grey area behind circles */
+.delivery-status-card {
+  background: #fff !important; 
+}
+
+.delivery-status-card .status-steps,
+.delivery-status-card .step {
+  background: #fff !important;
+}
+
+
+
+
+
+
+
+
+
+.order-items-list {
+  list-style: none;
+  margin-top: 8px;
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.order-items-list li {
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-items-list li span.name {
+  color: #333;
+}
+
+.order-items-list li span.price {
+  color: #555;
+}
+
+
+
+
+
+/*back - button*/
+.back-btn-container {
+  margin-bottom: 16px;
+}
+
+.back-btn-page {
+  background-color: #4E3B31;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease;
+}
+
+.back-btn-page:hover {
+  background-color: #f59e0b;
+}
+
+
+.navbar-frame {
+  width: 100%;
+  height: 70px;
+  border: none;
+  display: block;
+}

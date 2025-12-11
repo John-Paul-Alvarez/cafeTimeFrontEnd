@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Group 8 Cafe</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script>
+        // If already logged in, redirect to dashboard
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            window.location.href = "dashboard.html";
+        }
+    </script>
+</head>
+
+<body>
+
+
+    <header>
+        <h1>Sign In to Group 8 Cafe</h1>
+        <nav>
+            <a href="homepage.html">Home</a>
+            <a href="menu.html">View Menu</a><!--  Added this -->
+        </nav>
+    </header>
+
+    <main>
+        <div class="signin-container">
+            <h2>Sign In</h2>
+            <form id="signin-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+        </div>
+    </main>
+
+    <script type="module" src="../scripts/signin.js"></script>
+
+</body>
+
+</html>

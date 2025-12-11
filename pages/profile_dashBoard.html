@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile — Cafe</title>
+
+    <!-- styles for this page -->
+    <link rel="stylesheet" href="../styles/profile_dashBoard.css" />
+
+    <!-- gate: require login -->
+    <script type="module">
+        import { requireAuth, logout } from "../scripts/auth.js";
+        window.logout = logout;
+        requireAuth();
+    </script>
+</head>
+
+<body>
+    <!-- ===== Top Navbar ===== -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+
+
+    <!-- ===== Page Header ===== -->
+    <header class="ct-page-header">
+        <h1 id="welcome-title">Welcome Back!</h1>
+        <p class="ct-subtle">Here’s your profile and order overview.</p>
+    </header>
+
+    <!-- ===== Main ===== -->
+    <main class="profile-layout">
+        <div class="left-col">
+
+            <section class="card">
+                <h3>Basic Info</h3>
+                <div class="kv"><span>Email</span><span id="user-email">—</span></div>
+                <div class="kv"><span>Member Since</span><span id="member-since">—</span></div>
+            </section>
+
+            <section class="card">
+                <div class="row-between">
+                    <h3>Payment Info</h3>
+                    <a id="edit-card" href="#" style="display:none"></a>
+                </div>
+                <div id="payment-slot" class="muted">Loading…</div>
+                <div id="payment-updated" class="tiny muted"></div>
+            </section>
+
+            <section class="card">
+                <h3>Delivery Address</h3>
+                <div id="address-slot" class="muted">Loading…</div>
+                <div class="spacer-6"></div>
+                <a class="plain-link" href="address_form.html">Change Address</a>
+            </section>
+
+            <section class="card">
+                <h3>Quick Actions</h3>
+                <ul class="list-links">
+                    <li><a href="deliveries.html">Track My Orders</a></li>
+                    <li><a href="#" onclick="logout()">Log Out</a></li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="right-col">
+
+            <section class="card">
+                <h3>From Our Menu</h3>
+                <div id="menu-grid" class="menu-grid"></div>
+                <div class="menu-btn-wrap">
+                    <a class="pill-btn" href="newMenuPage.html">View Full Menu</a>
+                </div>
+            </section>
+
+            <!-- ===== Order History (HTML only; rows injected by JS) ===== -->
+            <section id="order-history" class="card">
+                <h3>Order History</h3>
+                <div id="orders-table-wrap" class="orders-table-wrap">
+                    <table id="orders-table" class="orders-table" aria-live="polite">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Order # / ID</th>
+                                <th scope="col">Items</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- rows injected by JS; keep "Order Again" text/link dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- page logic -->
+    <script type="module" src="../scripts/profile_dashBoard.js"></script>
+</body>
+
+</html>

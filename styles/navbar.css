@@ -1,0 +1,203 @@
+:root {
+  --bg: #D9B68C;
+  --ink: #1f2937;
+  --border: #D9B68C;
+}
+
+/* Prevent iframe body from having weird margin */
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* NAVBAR */
+.ct-nav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+
+.ct-nav-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  padding: 0 48px;
+}
+
+/* Brand */
+.ct-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 22px;
+  padding-left: 20px;
+}
+
+.ct-cup {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #000;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+}
+.ct-cup::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: -9px;
+  height: 9px;
+  background: #e11d2f;
+  border-radius: 0 0 14px 14px;
+}
+
+/* Search */
+.ct-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1edeb;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 28px;
+  max-width: 600px;
+  width: 100%;
+  justify-self: center;
+}
+
+.ct-search-icon {
+  width: 18px;
+  height: 18px;
+  fill: #a0938a;
+}
+
+.ct-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Right side */
+.ct-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 20px;
+}
+
+/* Profile */
+.ct-profile-icon {
+  width: 28px;
+  height: 28px;
+  fill: #2a2a2a;
+}
+.ct-profile:hover .ct-profile-icon {
+  fill: #000;
+}
+
+/* Cart */
+.ct-cart {
+  position: relative;
+}
+.ct-cart-icon {
+  width: 28px;
+  height: 28px;
+  fill: #2a2a2a;
+}
+
+.ct-badge {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  background: #e11d2f;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;   /* perfect circle */
+
+  padding: 0;          /* removes balloon shape */
+  line-height: 1;      /* better centering */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3); /* optional: subtle pop */
+}
+
+
+
+.ct-nav-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  padding: 0 24px; /* was 48px */
+  box-sizing: border-box; /* prevents overflow */
+}
+
+
+.ct-nav {
+  overflow-x: hidden;
+}
+
+
+.ct-logo {
+  height: 48px;   /* adjust size */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  padding-right: 5px;
+}
+
+
+.kaushan-script {
+  font-family: "Kaushan Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.ct-brand-text {
+  font-size: 32px; /* bigger */
+}
+
+
+
+
+.ct-auth-btn {
+    margin-left: 12px;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+.ct-auth-btn:hover {
+    background: #f1f1f1;
+}
+
+.ct-auth-btn.ct-signup {
+    background: #e67e22;
+    color: #fff;
+    border: none;
+}
+
+.ct-auth-btn.ct-signup:hover {
+    background: #cf6d1c;
+}

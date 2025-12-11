@@ -1,0 +1,87 @@
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('pizza-bg.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .welcome-card img.logo {
+            width: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-card h1 {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #111;
+            margin: 0.5rem 0;
+        }
+
+        .welcome-card h1 span {
+            color: #e53935;
+        }
+
+        .welcome-card p {
+            color: #444;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #e53935;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c62828;
+        }
+
+        .btn-guest {
+            background: #ffe5e5;
+            color: #e53935;
+        }
+
+        .btn-guest:hover {
+            background: #ffcdd2;
+        }
+
+        .login-link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .login-link a {
+            color: #e53935;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }

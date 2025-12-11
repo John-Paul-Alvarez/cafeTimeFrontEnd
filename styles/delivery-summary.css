@@ -1,0 +1,199 @@
+/* ===== Base Layout ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #F7F2E7;
+  color: #1f2937;
+}
+
+/* Keep navbar consistent */
+.ct-nav {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  padding: 10px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ===== Page Layout (Centered Content) ===== */
+.summary-layout {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.summary-container {
+  width: 100%;
+  max-width: 700px; /* 👈 keeps it compact in center */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ===== Info Cards (same visual style) ===== */
+.info-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+}
+
+.info-card h2,
+.info-card h3 {
+  margin: 0 0 12px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.info-card .row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.info-card .label {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.info-card .value,
+.info-card span.value {
+  font-weight: 600;
+}
+
+/* Pill status */
+.pill {
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ===== Delivery Steps (Top Progress) ===== */
+.delivery-status-card {
+  text-align: center;
+}
+
+.status-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f7f5;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.step p {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #a16207;
+}
+
+.step .circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.step.completed .circle {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.step.active .circle {
+  border-color: #3b82f6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .summary-container {
+    padding: 0 16px;
+  }
+}
+
+.back-btn {
+  display: block;
+  margin: 24px auto 0;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #4E3B31;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #a36a08;
+}
+
+
+.back-btn-page {
+  display: inline-block;
+  position: absolute;
+  top: 100px; /* adjust vertically if needed */
+  left: 60px; /* move it to the left side */
+  background: #4E3B31;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.back-btn-page:hover {
+  background: #a36a08;
+  transform: translateY(-1px);
+}
+
+
+
+/* 🧡 Gratitude Banner */
+.gratitude-banner {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #3b2f2f;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gratitude-banner h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2d1b10;
+}
+
+.gratitude-banner p {
+  font-size: 1rem;
+  color: #7b5e4a;
+  opacity: 0.9;
+}
+
+
+.navbar-frame {
+  width: 100%;
+  height: 70px;
+  border: none;
+  display: block;
+}

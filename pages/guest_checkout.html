@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Guest Checkout - CafeTime</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../styles/styles.css" />
+</head>
+
+<body class="checkout-body">
+  <!-- ⭐ SPECIAL NAVBAR (KEEP THIS) ⭐ -->
+  <iframe src="../checkoutNavbar.html" class="navbar-frame"></iframe>
+
+  <main class="checkout-layout">
+    <!-- LEFT: Cart / summary -->
+    <section class="checkout-left">
+      <button class="back-link" onclick="history.back()">← Back</button>
+
+      <div class="checkout-left-header">
+        <h1>Guest Checkout</h1>
+        <div class="checkout-left-actions">
+          <a href="newMenuPage.html" class="muted-link">Continue shopping &gt;</a>
+          <button type="button" id="guest-refresh" class="link-btn danger">Refresh</button>
+        </div>
+      </div>
+
+      <!-- Small message area -->
+      <div id="guest-message" class="muted" style="display:none;"></div>
+
+      <!-- Order list -->
+      <div class="cart-card">
+        <table id="guest-table" class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Size / Options</th>
+              <th class="center">Quantity</th>
+              <th class="right">Total Price</th>
+            </tr>
+          </thead>
+          <tbody id="guest-rows"></tbody>
+        </table>
+
+        <!-- Delivery notes -->
+        <div class="checkout-notes-row">
+          <label for="guest-delivery-notes" class="muted">Delivery notes:</label>
+          <textarea id="guest-delivery-notes" class="checkout-textarea"
+            placeholder="Add instructions for the delivery person (optional)..."></textarea>
+        </div>
+
+        <!-- Personal / Billing (guest must fill every time) -->
+        <div class="guest-personal" style="margin-top:14px;">
+          <h3>Personal & Billing Info (will not be saved)</h3>
+          <div class="field-group">
+            <label for="guest-name">Full name</label>
+            <input id="guest-name" type="text" placeholder="Enter full name" autocomplete="name" />
+          </div>
+
+          <div class="field-group">
+            <label for="guest-email">Email</label>
+            <input id="guest-email" type="email" placeholder="Enter email" autocomplete="email" />
+          </div>
+
+          <div class="field-group">
+            <label for="guest-phone">Phone</label>
+            <input id="guest-phone" type="tel" placeholder="Enter phone number" autocomplete="tel" />
+          </div>
+
+          <div class="field-group">
+            <label for="guest-address">Delivery address</label>
+            <input id="guest-address" type="text" placeholder="Street address" autocomplete="street-address" />
+          </div>
+
+          <div class="field-group">
+            <label for="guest-city">City</label>
+            <input id="guest-city" type="text" placeholder="City" autocomplete="address-level2" />
+          </div>
+
+          <div class="field-group">
+            <label for="guest-postal">Postal/ZIP</label>
+            <input id="guest-postal" type="text" placeholder="Postal code" autocomplete="postal-code" />
+          </div>
+        </div>
+
+        <!-- Totals under the table -->
+        <div class="totals-row" style="margin-top:12px;">
+          <div class="totals-line">
+            <span>Subtotal :</span>
+            <span id="guest-subtotal" class="totals-value">$0.00</span>
+          </div>
+          <div class="totals-line">
+            <span>Tax (HST 13%) :</span>
+            <span id="guest-tax" class="totals-value">$0.00</span>
+          </div>
+          <div class="totals-line">
+            <span>Shipping :</span>
+            <span class="totals-value">Free</span>
+          </div>
+          <div class="totals-line totals-total">
+            <span>Total :</span>
+            <span id="guest-grand" class="totals-value">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Payment panel (card details + Pay button) -->
+    <aside class="checkout-right">
+      <div class="payment-card">
+        <h2>Payment</h2>
+
+        <div class="payment-section">
+          <div class="payment-label">Payment Method:</div>
+          <div class="payment-options">
+            <label class="radio-row">
+              <input type="radio" name="guest-pay-method" value="card" checked />
+              <span>Credit / Debit Card</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="guest-pay-method" value="cash" />
+              <span>Pay in Person</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="guest-pay-method" value="apple-pay" />
+              <span>Apple Pay</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="guest-pay-method" value="google-pay" />
+              <span>Google Pay</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="guest-card-name">Name On Card</label>
+          <input id="guest-card-name" type="text" placeholder="Name on card" />
+        </div>
+
+        <div class="field-group">
+          <label for="guest-card-number">Card Number</label>
+          <div style="position: relative;">
+            <input id="guest-card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456"
+              maxlength="19" oninput="formatCardNumber(this)" />
+            <img id="card-icon" src=""
+              style="width: 30px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none;">
+          </div>
+        </div>
+
+        <script>
+          function formatCardNumber(input) {
+            // remove all non-digits
+            let value = input.value.replace(/\D/g, "");
+
+            // card type detection
+            let icon = document.getElementById("card-icon");
+            icon.style.display = "block";
+
+            if (/^4/.test(value)) {
+              icon.src = "visa.png";
+            } else if (/^5[1-5]/.test(value)) {
+              icon.src = "mastercard.png";
+            } else if (/^3[47]/.test(value)) {
+              icon.src = "amex.png";
+            } else if (/^6/.test(value)) {
+              icon.src = "discover.png";
+            } else {
+              icon.style.display = "none";
+            }
+
+            // formatting: add spaces every 4 digits
+            value = value.substring(0, 16); // limit digits to 16
+            let chunks = value.match(/.{1,4}/g);
+            input.value = chunks ? chunks.join(" ") : "";
+          }
+        </script>
+        <div style="display:flex; gap:8px;">
+          <div style="flex:1;">
+            <label for="guest-card-exp">MM / YY</label>
+            <input id="guest-card-exp" type="number" placeholder="MM / YY" />
+          </div>
+          <div style="width:150px;">
+            <label for="guest-card-cvc">CVV</label>
+            <input id="guest-card-cvc" type="text" placeholder="CVV" />
+          </div>
+        </div>
+
+        <div id="guest-payment-message" class="muted" style="margin-top:10px;"></div>
+
+        <button id="guest-pay" class="btn checkout-btn" style="margin-top:12px; width:100%;">Pay as Guest</button>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="../scripts/guest_checkout.js"></script>
+</body>
+
+</html>

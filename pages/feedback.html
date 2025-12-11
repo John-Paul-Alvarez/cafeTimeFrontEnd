@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Feedback | CafeTime</title>
+
+  <style>
+    :root {
+      --milk-chocolate: #7b5b4b;
+      --milk-chocolate-hover: #9b7b6b;
+      --background-light: #faf9f7;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: var(--background-light);
+      color: #333;
+    }
+
+    header {
+      background-color: var(--milk-chocolate);
+      color: #fff;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0.3rem 0 0;
+      font-size: 1rem;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 1rem;
+      top: 1.2rem;
+      background-color: #fff;
+      color: var(--milk-chocolate);
+      border: 1px solid var(--milk-chocolate);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: var(--milk-chocolate);
+      color: #fff;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .intro-text {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .review-section {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .review-section h3 {
+      margin-top: 0;
+      color: var(--milk-chocolate);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    input, select, textarea {
+      
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      background-color: var(--milk-chocolate);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.7rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: var(--milk-chocolate-hover);
+    }
+
+    .sample-reviews {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .review-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      width: 100%;   
+      box-sizing: border-box;
+    }
+
+    .review-card h4 {
+      margin: 0 0 0.3rem 0;
+      color: var(--milk-chocolate);
+    }
+
+    .review-card p {
+      margin: 0.3rem 0;
+      font-size: 0.95rem;
+    }
+
+    .review-rating {
+      color: #c49b63;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Popup styles */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      position: relative;
+      max-width: 350px;
+    }
+
+    .popup h3 {
+      margin: 0 0 1rem;
+      color: var(--milk-chocolate);
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--milk-chocolate);
+      font-weight: bold;
+    }
+
+    /* Make all review lists show 3 cards per row */
+.my-reviews-list,
+.sample-reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  gap: 1.5rem;
+}
+
+/* Make review cards fill the grid cells */
+.review-card {
+  width: 100%;
+  max-width: none; /* remove the 280px limit */
+}
+
+
+    @media (max-width: 600px) {
+      .sample-reviews {
+        flex-direction: column;
+        align-items: center;
+      }
+      .review-card {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 900px) {
+  .my-reviews-list,
+  .sample-reviews {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row */
+  }
+}
+
+@media (max-width: 600px) {
+  .my-reviews-list,
+  .sample-reviews {
+    grid-template-columns: 1fr; /* full width on mobile */
+  }
+}
+
+
+    .my-reviews-box {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .my-reviews-list .review-card {
+      margin-bottom: 1rem;
+    }
+
+    .navbar-frame {
+  width: 100%;
+  height: 70px;
+  border: none;
+  display: block;
+}
+  </style>
+</head>
+
+<body>
+  <!-- ===== Top Navbar ===== -->
+    <iframe src="navbar.html" class="navbar-frame"></iframe>
+
+  <header>
+    <h1>We Value Your Feedback</h1>
+    <p>Tell us about your experience with CafeTime</p>
+  </header>
+
+  <main>
+    <p class="intro-text">
+      Please submit your review below. Your feedback helps us improve our services and provide the best experience possible.
+    </p>
+
+    <!-- Review form -->
+    <div class="review-section">
+      <h3>Submit Your Review regarding CafeTime's food quality/website experience/delivery service</h3>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <select required>
+          <option value="">Rating</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+        </select>
+        <textarea placeholder="Share your thoughts..." rows="4"></textarea>
+        <button type="submit">Submit Review</button>
+      </form>
+    </div>
+
+    <!-- My Reviews Section -->
+    
+    
+
+    <!-- Static sample reviews -->
+    <h2 style="text-align:center; color: var(--milk-chocolate);">Customer Reviews</h2>
+    <div class="sample-reviews">
+      <div class="review-card">
+        <h4>Emily</h4>
+        <p class="review-rating">5 Stars</p>
+        <p>The coffee was amazing and the atmosphere is cozy!</p>
+      </div>
+      <div class="review-card">
+        <h4>Michael</h4>
+        <p class="review-rating">4 Stars</p>
+        <p>Quick delivery and the app was easy to use.</p>
+      </div>
+      <div class="review-card">
+        <h4>Sophia</h4>
+        <p class="review-rating">5 Stars</p>
+        <p>Loved the new pastry menu. Highly recommend!</p>
+      </div>
+    </div>
+
+    <!-- User-submitted reviews -->
+    <div id="recentReviews" class="my-reviews-box">
+      <div id="recentReviewsList" class="my-reviews-list"></div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CafeTime. All rights reserved.</p>
+  </footer>
+
+  <!-- Popup -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <button class="close-popup" id="closePopup">&times;</button>
+      <h3>Thank You for Your Feedback!</h3>
+      <p>We truly appreciate you taking the time to share your thoughts.</p>
+    </div>
+  </div>
+
+  <script src="../scripts/feedback.js"></script>
+</body>
+</html>

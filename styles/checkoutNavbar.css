@@ -1,0 +1,52 @@
+:root {
+  --bg: #D9B68C;
+  --ink: #1f2937;
+  --border: #D9B68C;
+}
+
+/* Reset + background match */
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* NAVBAR */
+.ct-nav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+
+/* Center the brand */
+.ct-nav-inner-center {
+  display: flex;
+  justify-content: center; /* 🔥 brand centered */
+  align-items: center;
+  width: 100%;
+}
+
+/* Brand styling (same as default navbar) */
+.ct-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.ct-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.ct-brand-text {
+  font-size: 32px;
+}
+
+.kaushan-script {
+  font-family: "Kaushan Script", cursive;
+}

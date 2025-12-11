@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CafeTime</title>
+    <link rel="stylesheet" href="../styles/login.css">
+    <script>
+        // If already logged in, redirect to dashboard
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            window.location.href = "profile_dashBoard.html";
+        }
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+    <!-- Main content wrapper -->
+    <div class="page-content">
+        <div class="login-card">
+            <h1>CafeTime</h1>
+            <p>Welcome back!</p>
+
+            <form id="signin-form">
+                <input type="email" id="email" name="email" placeholder="📧 Email" required>
+                <input type="password" id="password" name="password" placeholder="🔒 Password" required>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+
+            <a href="#" class="forgot">Forgot password?</a>
+            <p class="signup">Don't have an account? <a href="sign_up.html">Create one here.</a></p>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/signin.js"></script>
+</body>
+
+
+</html>

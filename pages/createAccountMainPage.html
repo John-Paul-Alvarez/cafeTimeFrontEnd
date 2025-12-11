@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - CafeTime</title>
+    <link rel="stylesheet" href="../styles/createAccountMainPage.css">
+    <!-- <script>
+        // If already logged in, redirect to dashboard
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            window.location.href = "dashboard.html";
+        }
+    </script> -->
+</head>
+
+<body>
+    <div class="welcome-card">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/044/448/721/small_2x/collection-of-simple-coffee-cup-logo-designs-isolated-png.png"
+            alt="PizzaTime Logo" class="logo">
+        <h1>Welcome to <span>CafeTime</span></h1>
+        <p>Fresh coffee & pastries at your doorstep.</p>
+
+        <button id="btn-create" class="btn btn-primary">Create Account</button>
+        <button id="btn-guest" class="btn btn-guest">Continue as Guest</button>
+
+        <div class="login-link">
+            Already have an account? <a href="signin.html">Log in here.</a>
+        </div>
+    </div>
+
+    <!-- Button wiring -->
+    <script type="module">
+        // If already logged in, send them to dashboard
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            window.location.href = "profile_dashBoard.html";
+        }
+
+        // Buttons
+        const createBtn = document.getElementById("btn-create");
+        const guestBtn = document.getElementById("btn-guest");
+
+        // Create Account -> signup page
+        createBtn.addEventListener("click", () => {
+            window.location.href = "sign_up.html";
+        });
+
+        // Continue as Guest -> guest address page
+        // After confirming address there, user should land on menu.html
+        guestBtn.addEventListener("click", () => {
+            //sessionStorage.setItem("postAddressRedirect", "newMenuPage.html");
+            window.location.href = "guest_checkout.html"; // your guest address page
+        });
+    </script>
+</body>
+
+</html>

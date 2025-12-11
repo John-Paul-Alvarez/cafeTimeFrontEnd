@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Café Delivery Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .delivery-status {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px 14px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div class="delivery-status" id="status">🚗 Calculating route...</div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        // 🧭 Coordinates
+        const cafe = [43.65107, -79.347015];
+        const user = [43.738698848123875, -79.519635883392];
+
+        // 🚙 Initialize map
+        const map = L.map('map').setView(cafe, 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // 📍 Add café and user markers
+        L.marker(cafe).addTo(map).bindPopup('☕ Café').openPopup();
+        L.marker(user).addTo(map).bindPopup('🏠 Your Address');
+
+        // 🛣️ Draw route
+        const routeControl = L.Routing.control({
+            waypoints: [L.latLng(cafe), L.latLng(user)],
+            lineOptions: { styles: [{ color: 'blue', opacity: 0.6, weight: 5 }] },
+            createMarker: () => null,
+            addWaypoints: false,
+            routeWhileDragging: false,
+            draggableWaypoints: false
+        }).addTo(map);
+
+        // 🚗 Car icon
+        const carIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/744/744465.png',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+        const carMarker = L.marker(cafe, { icon: carIcon }).addTo(map);
+
+        // 💾 Restore last progress
+        let progress = parseInt(localStorage.getItem('deliveryProgress')) || 0;
+        let routeCoords = [];
+        let moving = false;
+
+        routeControl.on('routesfound', e => {
+            routeCoords = e.routes[0].coordinates;
+            moveCar();
+        });
+
+        // 🧮 Helper: calculate distance between two lat/lng points (Haversine formula)
+        function distanceInMeters(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // earth radius in meters
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) ** 2 +
+                Math.cos(lat1 * Math.PI / 180) *
+                Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) ** 2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        // 🧮 Compute remaining distance from current point to destination
+        function remainingDistance(startIndex) {
+            let dist = 0;
+            for (let i = startIndex; i < routeCoords.length - 1; i++) {
+                const a = routeCoords[i];
+                const b = routeCoords[i + 1];
+                dist += distanceInMeters(a.lat, a.lng, b.lat, b.lng);
+            }
+            return dist;
+        }
+
+        // ⏱️ Convert seconds to readable ETA
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            if (seconds < 15) return 'Arriving soon...';
+            return `${m > 0 ? m + 'm ' : ''}${s}s`;
+        }
+
+        // 🚦 Simulate stoplights & movement
+        function moveCar() {
+            if (moving || progress >= routeCoords.length) return;
+            moving = true;
+
+            const avgSpeed = 11.1; // ~40 km/h in m/s
+
+            function driveStep() {
+                if (progress >= routeCoords.length) {
+                    document.getElementById('status').innerText = '✅ Order Delivered!';
+                    localStorage.removeItem('deliveryProgress');
+                    moving = false;
+                    return;
+                }
+
+                const coord = routeCoords[progress];
+                carMarker.setLatLng([coord.lat, coord.lng]);
+                localStorage.setItem('deliveryProgress', progress);
+
+                // 🧮 Update ETA based on remaining distance
+                const dist = remainingDistance(progress);
+                const etaSeconds = dist / avgSpeed;
+                document.getElementById('status').innerText =
+                    `🚗 Out for delivery — ETA: ${formatTime(etaSeconds)}`;
+
+                // 🚦 Random red light stop (10% chance)
+                if (Math.random() < 0.1) {
+                    const redLightDelay = Math.floor(Math.random() * 3000) + 2000; // 2–5 sec
+                    document.getElementById('status').innerText = '🛑 Waiting at red light...';
+                    setTimeout(() => {
+                        progress++;
+                        driveStep();
+                    }, redLightDelay);
+                } else {
+                    progress++;
+                    const delay = getVariableSpeed();
+                    setTimeout(driveStep, delay);
+                }
+            }
+
+            driveStep();
+        }
+
+        // 🐢 Variable driving speed (0.6s–1.3s per step)
+        function getVariableSpeed() {
+            return Math.floor(Math.random() * 700) + 600;
+        }
+    </script>
+</body>
+
+</html>

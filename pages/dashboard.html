@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Group 8 Cafe</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script type="module">
+        import { logout } from "../scripts/auth.js";
+        window.logout = logout; // expose it globally for onclick
+    </script>
+
+    <script type="module">
+        const token = localStorage.getItem("authToken");
+        const guest = localStorage.getItem("guestMode") === "1";
+        if (!token && !guest) {
+            const here = location.pathname.split("/").pop() || "newMenuPage.html";
+            sessionStorage.setItem("postAddressRedirect", here);
+            // IMPORTANT: send to the GUEST page (sets guestMode)
+            window.location.href = "guessAndAddress_form.html";
+        }
+    </script>
+
+
+    <script type="module">
+        import { requireAuth } from "../scripts/auth.js";
+
+        // Check auth before showing cart
+        requireAuth();
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Your Dashboard</h1>
+        <nav>
+            <a href="homepage.html">Home</a>
+            <a href="newMenuPage.html">View Menu</a>
+            <a href="checkout.html">Checkout</a><!--  Added this -->
+            <a href="logout.html">Log Out</a>
+            <button onclick="logout()">Log Out</button>
+        </nav>
+    </header>
+    <main>
+        <h2>Hello, [User]!</h2>
+        <p>Welcome back! Here is a quick overview of your cafe account:</p>
+
+        <section class="dashboard-section">
+            <h3>Recommended for You</h3>
+            <ul>
+                <li> Latte - $4.50</li>
+                <li> Croissant - $3.00</li>
+            </ul>
+        </section>
+
+        <section class="dashboard-section">
+            <h3>Order History</h3>
+            <ul>
+                <li> Espresso - Ordered on March 1st</li>
+                <li> Blueberry Muffin - Ordered on Feb 25th</li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>

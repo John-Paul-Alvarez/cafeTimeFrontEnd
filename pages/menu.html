@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu - Our Cafe</title>
+  <link rel="stylesheet" href="../styles/styles.css" />
+
+  <!--   
+  <script type="module">
+    const token = localStorage.getItem("authToken");
+    const guest = localStorage.getItem("guestMode") === "1";
+    if (!token && !guest) {
+      const here = location.pathname.split("/").pop() || "menu.html";
+      sessionStorage.setItem("postAddressRedirect", here);
+      // IMPORTANT: send to the GUEST page (sets guestMode)
+      window.location.href = "guessAndAddress_form.html";
+    }
+  </script> -->
+
+</head>
+
+<body>
+  <header>
+    <h1>Our Menu</h1>
+    <nav>
+      <a href="homepage.html">Home</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="cart.html" class="cart-btn">🛒 View Cart</a> <!--  Added     this -->
+    </nav>
+  </header>
+
+  <main>
+    <h2>Drinks</h2>
+    <ul id="drinks-list"></ul>
+
+    <h2>Pastries</h2>
+    <ul id="pastries-list"></ul>
+  </main>
+
+  <script type="module" src="../scripts/menu.js"></script>
+</body>
+
+</html>

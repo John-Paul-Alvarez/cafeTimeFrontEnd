@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - PizzaTime</title>
+    <link rel="stylesheet" href="../styles/signup.css">
+    <script>
+        // If already logged in, redirect to dashboard
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            window.location.href = "profile_dashBoard.html";
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+    <div class="page-content">
+        <div class="signup-card">
+            <h1>CafeTime</h1>
+            <p>Create your account</p>
+
+            <form id="signup-form">
+                <input type="text" placeholder="👤 Full Name" id="name" name="name" required>
+                <input type="email" placeholder="📧 Email" id="email" name="email" required>
+                <input type="password" placeholder="🔒 Password" id="password" name="password" required>
+
+                <button type="submit" class="signup-btn">Sign Up</button>
+            </form>
+
+            <p class="login">Already have an account? <a href="signin.html">Log in here.</a></p>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/signup.js"></script>
+
+</body>
+
+
+</html>

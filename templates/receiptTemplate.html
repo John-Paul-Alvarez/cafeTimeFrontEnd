@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your CafeTime Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #333;
+    }
+    p {
+      color: #555;
+    }
+    .summary {
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Thank you for your order, {{customerName}}!</h2>
+    <p>Your payment was successfully processed.</p>
+
+    <div class="summary">
+      <p><strong>Confirmation #:</strong> {{confirmationCode}}</p>
+      <p><strong>Date:</strong> {{orderDate}}</p>
+      <p><strong>Total Paid:</strong> ${{amount}}</p>
+      <p><strong>Items:</strong> {{items}}</p>
+    </div>
+
+    <p>If you have any questions, reply to this email.</p>
+
+    <div class="footer">
+      CafeTime Inc. · Thank you for dining with us.
+    </div>
+  </div>
+</body>
+</html>

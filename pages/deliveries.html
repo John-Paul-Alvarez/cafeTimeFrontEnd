@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>My Deliveries — CafeTime</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/deliveries.css">
+</head>
+
+<body>
+
+    <!-- ===== Top Navbar ===== -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+    <!-- Page content -->
+    <div class="back-btn-container">
+        <button id="backBtn" class="back-btn-page">← Back to Profile</button>
+    </div>
+    <div class="container">
+        <h1 class="deliveries-title">My Deliveries</h1>
+
+        <div class="toolbar">
+            <button id="btnRefresh" class="refresh">Refresh</button>
+            <span id="lastUpdated" class="sub"></span>
+        </div>
+
+        <div id="error" class="error" style="display:none;"></div>
+        <div id="delivery-list" class="list"></div>
+
+        <div id="empty" class="empty" style="display:none;">
+            No active deliveries right now.
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.API_BASE || "";
+    </script>
+    <script src="../scripts/deliveries.js"></script>
+</body>
+
+</html>

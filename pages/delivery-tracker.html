@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Delivery Tracker — CafeTime</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/navbar.css" />
+    <link rel="stylesheet" href="../styles/delivery-tracker.css" />
+</head>
+
+<body>
+
+    <!-- ===== Top Navbar ===== -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+
+    <!-- ===== Layout ===== -->
+    <div class="delivery-layout">
+
+        <aside class="delivery-info">
+
+            <div class="back-btn-container">
+                <button id="backBtn" class="back-btn-page">← Back to Deliveries</button>
+            </div>
+            <!-- Delivery Status -->
+            <div class="info-card delivery-status-card">
+                <h2>Delivery Status</h2>
+                <div id="statusSteps" class="status-steps">
+                    <div class="step" data-step="preparing">
+                        <div class="circle"><span>✔</span></div>
+                        <p>Preparing</p>
+                    </div>
+
+                    <div class="step" data-step="on the way">
+                        <div class="circle"><span>✔</span></div>
+                        <p>On The Way</p>
+                    </div>
+
+                    <div class="step" data-step="delivered">
+                        <div class="circle"><span>✔</span></div>
+                        <p>Delivered</p>
+                    </div>
+
+                    <div class="progress-line"></div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div id="orderSummary" class="info-card">
+                <h3>Order Summary</h3>
+                <ul id="orderItems" class="order-items-list"></ul>
+                <!-- Removed price / total row on purpose -->
+                <div class="row">
+                    <span class="label">Time Placed:</span>
+                    <span id="orderTime">—</span>
+                </div>
+            </div>
+
+
+            <!-- Delivery Address -->
+            <div id="deliveryAddress" class="info-card">
+                <h3>Delivery Address</h3>
+                <p id="addressText">—</p>
+            </div>
+
+            <!-- Order Info -->
+            <div class="info-card">
+                <div class="row"><span class="label">Order ID</span><span id="orderId" class="value">—</span></div>
+                <div class="row"><span class="label">Status</span><span id="status" class="pill">—</span></div>
+                <div class="row"><span class="label">ETA</span><span id="eta" class="value">—</span></div>
+                <div class="row"><span class="label">Last Update</span><span id="updated" class="value">—</span></div>
+                <div id="err" class="error" style="display:none;"></div>
+            </div>
+
+
+        </aside>
+
+        <main class="delivery-map" id="map"></main>
+
+        <div id="arrival-modal" class="arrival-modal">
+            <h2 id="arrival-time">Arriving in 8 min</h2>
+            <p>Your order is on its way!</p>
+        </div>
+
+    </div>
+
+    <!-- ===== Delivery Complete Modal ===== -->
+    <div id="deliveredModal" class="delivered-modal">
+        <div class="delivered-modal-content">
+            <h2>Order Delivered</h2>
+            <p>Your order has arrived! Thank you for choosing CafeTime </p>
+            <button id="continueBtn">Continue</button>
+        </div>
+    </div>
+
+
+    <script type="module" src="../scripts/delivery-map.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Order Confirmation - CafeTime</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../styles/styles.css" />
+</head>
+<body class="checkout-body">
+  <!-- ⭐ SPECIAL NAVBAR (KEEP THIS) ⭐ -->
+  <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+
+  <main style="max-width:900px;margin:40px auto;padding:20px;">
+    <div class="cart-card">
+      <h1>Order Confirmation</h1>
+      <div id="confirm-content" style="margin-top:14px;"></div>
+      <div style="margin-top:18px;">
+        <a href="index.html" class="btn">Continue shopping</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const KEY = 'latestGuestOrder';
+      const el = document.getElementById('confirm-content');
+      try {
+        const raw = sessionStorage.getItem(KEY);
+        if (!raw) {
+          el.innerHTML = `<p>No recent guest order was found. If you just paid, please check your email or try again.</p>`;
+          return;
+        }
+        const order = JSON.parse(raw);
+        // render summary
+        let html = `<p>Thank you, <strong>${order.personal.name}</strong> — your order <strong>${order.id}</strong> has been placed.</p>`;
+        html += `<p><strong>Total:</strong> $${Number(order.totals.grand).toFixed(2)}</p>`;
+        html += `<h3>Items</h3><ul>`;
+        (order.items||[]).forEach(it => {
+          html += `<li>${it.name} — ${it.quantity} × $${Number(it.unitPrice||0).toFixed(2)} = $${Number(it.totalPrice||0).toFixed(2)}</li>`;
+        });
+        html += `</ul>`;
+        html += `<h4>Delivery</h4>`;
+        html += `<p>${order.personal.address || ''} ${order.personal.city || ''} ${order.personal.postal || ''}</p>`;
+        html += `<p>Delivery notes: ${order.deliveryNotes || '—'}</p>`;
+        html += `<p>Please keep the order number : <strong>${order.id}</strong> </p>`;
+
+        el.innerHTML = html;
+
+        // Optionally open mail client with prefilled receipt (client-side only):
+        // const body = `Order ${order.id}\nTotal: ${order.totals.grand}\nThank you!`;
+        // window.location.href = `mailto:${encodeURIComponent(order.personal.email)}?subject=${encodeURIComponent('CafeTime Receipt - ' + order.id)}&body=${encodeURIComponent(body)}`;
+
+        // clear session storage so data doesn't persist
+        sessionStorage.removeItem(KEY);
+      } catch(e) {
+        console.error(e);
+        el.innerHTML = `<p>Unable to load confirmation details.</p>`;
+      }
+    })();
+  </script>
+</body>
+</html>

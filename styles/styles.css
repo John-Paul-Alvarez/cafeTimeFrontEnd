@@ -1,0 +1,893 @@
+/* ===========================
+   GLOBAL STYLES
+   =========================== */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F7F2E7; /* Light coffee color */
+  color: #4a2c2a;            /* Dark brown text */
+  text-align: center;
+}
+
+/* ===========================
+   GENERIC HEADER (non-checkout pages)
+   =========================== */
+
+header {
+  background-color: #8b5a2b; /* Dark coffee color */
+  color: white;
+  padding: 15px 0;
+}
+
+header h1 {
+  margin: 0;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 0 15px;
+  padding: 8px 12px;
+  background-color: #6f4e37;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #5a3d2b;
+}
+
+/* ===========================
+   MAIN CONTENT
+   =========================== */
+
+main {
+  padding: 20px;
+}
+
+h2 {
+  color: #6f4e37; /* Medium coffee color */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 18px;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  background-color: #d2691e; /* Coffee brown */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #b45f06;
+}
+
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+input {
+  
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  font-size: 18px;
+}
+
+/* Responsive nav */
+@media (max-width: 600px) {
+  nav a {
+    display: block;
+    margin: 10px auto;
+  }
+
+  ul li {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+/* ===========================
+   SHOPPING CART LAYOUT FIXES
+   =========================== */
+
+/* Center the cart table */
+.cart-table {
+  width: 80%; /* Table width */
+  margin: 20px auto; /* Center the table */
+  border-collapse: collapse;
+  font-size: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table headers */
+.cart-table th,
+.cart-table td {
+  padding: 12px;
+  border: 1px solid #d9c8b4;
+  text-align: center;
+}
+
+.cart-table th {
+  background-color: #f8e7d4;
+  color: #6f4e37;
+  font-weight: 600;
+}
+
+.cart-table td {
+  color: #4a2c2a;
+}
+
+/* Quantity control buttons and price cell */
+.cart-table .qty-cell,
+.cart-table .price-cell {
+  text-align: center;
+}
+
+.cart-table .price-cell {
+  color: #4a2c2a;
+}
+
+.cart-table td.right {
+  text-align: right;
+}
+
+.cart-table td button {
+  padding: 6px 12px;
+  background-color: #e6c6a8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-table td button:hover {
+  background-color: #d5b293;
+}
+
+/* ===========================
+   REMOVE BUTTON
+   =========================== */
+
+.remove-btn {
+  background-color: #d95e5e;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: #c74f4f;
+}
+
+/* ===========================
+   TOTAL SECTION
+   =========================== */
+
+/* Total section for subtotal, tax, and grand total */
+.totals-row {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 1.2rem;
+  padding-top: 10px;
+  border-top: 1px solid #d9c8b4;
+}
+
+.totals-line {
+  margin-bottom: 10px;
+}
+
+.totals-line span {
+  display: inline-block;
+  min-width: 150px;
+}
+
+.totals-total .totals-value {
+  font-weight: bold;
+  color: #5e3d26;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+.cart-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.cafe-btn {
+  padding: 10px 20px;
+  background-color: #b08968;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cafe-btn:hover {
+  background-color: #a07555;
+}
+
+.cafe-btn.primary {
+  background-color: #7f5539;
+}
+
+.cafe-btn.primary:hover {
+  background-color: #6c4730;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+/* Mobile adjustments for smaller screens */
+@media (max-width: 768px) {
+  .cart-table th,
+  .cart-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .totals-row {
+    font-size: 1rem;
+  }
+
+  .cart-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cafe-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* ===========================
+   MENU & HOMEPAGE IMAGES
+   =========================== */
+
+.menu-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.large-image-container img {
+  width: 90%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.image-container img {
+  width: 250px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Homepage paragraph */
+main p {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ===========================
+   SIGN-IN PAGE
+   =========================== */
+
+.signin-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 350px;
+  margin: 30px auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.signin-container h2 {
+  color: #6f4e37;
+  margin-bottom: 15px;
+}
+
+.signin-container input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.signin-container button {
+  background-color: #d2691e;
+  width: 100%;
+}
+
+.signin-container button:hover {
+  background-color: #b45f06;
+}
+
+/* ===========================
+   GENERIC CART TABLE (summary + checkout)
+   =========================== */
+
+.cart-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.cart-table th,
+.cart-table td {
+  border-bottom: 1px solid #d9c8b4;
+  padding: 10px 12px;
+}
+
+.cart-table th {
+  background-color: #f8e7d4;
+  color: #5e3d26;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cart-table td.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+/* quantity buttons & remove */
+.qty-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.qty-cell .qty-btn {
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #d9c8b4;
+  background-color: #f8e7d4;
+  color: #5e3d26;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.qty-cell .qty-btn:hover {
+  background-color: #e6c6a8;
+}
+
+.qty-cell .qty-value {
+  min-width: 18px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.remove-btn {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.remove-btn:hover {
+  background-color: #fecaca;
+}
+
+/* Totals (summary + checkout) */
+.totals-row {
+  margin-top: 12px;
+  border-top: 1px solid #d9c8b4;
+  padding-top: 10px;
+}
+
+.totals-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.totals-value {
+  font-weight: 600;
+}
+
+.totals-total .totals-value {
+  font-weight: 700;
+  color: #5e3d26;
+}
+
+/* Banners & notes */
+.error-banner {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  border: 1px solid #fecaca;
+}
+
+.empty-banner {
+  background-color: #fff9f2;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+}
+
+.note {
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-top: 6px;
+  white-space: pre-wrap;
+}
+
+/* ===========================
+   GENERIC BUTTON HELPERS
+   =========================== */
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.cafe-btn {
+  background-color: #b08968;
+}
+
+.cafe-btn:hover {
+  background-color: #a07555;
+}
+
+.cafe-btn.primary {
+  background-color: #7f5539;
+}
+
+.cafe-btn.primary:hover {
+  background-color: #6c4730;
+}
+
+/* ===========================
+   CAFE TIME CHECKOUT NAVBAR
+   =========================== */
+
+.checkout-body {
+  margin: 0;
+  background-color: #f8f1e4;
+  color: #4a2c2a;
+}
+
+/* Orange bar with CafeTime logo + links */
+.checkout-header {
+  background-color: #ff7a3a; /* bright orange */
+  color: #ffffff;
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-emoji {
+  font-size: 20px;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.checkout-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.checkout-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.checkout-nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
+   CHECKOUT LAYOUT (2 columns)
+   =========================== */
+
+.checkout-layout {
+  max-width: 1100px;
+  margin: 24px auto 40px;
+  padding: 0 24px 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 1.1fr);
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Left side: cart */
+.checkout-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.back-link {
+  border: none;
+  background: #b08968;
+  color: #fff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.back-link:hover {
+  background-color: #a07555;
+}
+
+.checkout-left-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.checkout-left-header h1 {
+  margin: 8px 0;
+  font-size: 2rem;
+  color: #5e3d26;
+  text-align: left;
+}
+
+.checkout-left-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.muted-link {
+  color: brown;
+  text-decoration: underline;
+}
+
+.link-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.link-btn.danger {
+  color: #b91c1c;
+}
+
+.checkout-notes-row {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* Right side: payment card */
+.checkout-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.payment-card {
+  width: 100%;
+  max-width: 360px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 18px 20px 22px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.payment-card h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  color: #5e3d26;
+}
+
+/* Payment method radios */
+.payment-section {
+  margin-bottom: 12px;
+}
+
+.payment-label {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #6f4e37;
+  margin-bottom: 4px;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4a2c2a;
+}
+
+.radio-row input[type="radio"] {
+  accent-color: #d2691e; /* coffee brown for checked circle */
+}
+
+/* Form fields in payment card */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.field-group label {
+  font-weight: bold;
+  color: #6f4e37;
+}
+
+.field-group input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #d9c8b4;
+  background-color: #fff9f2;
+  box-sizing: border-box;
+}
+
+/* Stripe element container */
+.card-element-box {
+  border: 1px solid #d9c8b4;
+  border-radius: 6px;
+  padding: 8px;
+  background-color: #fff9f2;
+}
+
+/* Pay button */
+.checkout-btn {
+  width: 100%;
+  background-color: #7f5539;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.checkout-btn:hover:not(:disabled) {
+  background-color: #6c4730;
+}
+
+.checkout-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive: stack columns on small screens */
+@media (max-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  .checkout-right {
+    justify-content: stretch;
+  }
+}
+/* ===========================
+   FIX CART PAGE LAYOUT
+   =========================== */
+
+/* Center whole cart area */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff9f2;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+/* Make table cleaner and centered */
+.cart-table {
+  width: 100%;
+  margin: 0 auto 20px auto;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header styling */
+.cart-table th {
+  background: #f3ddc7;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  color: #5e3d26;
+}
+
+/* Body cells */
+.cart-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e8d7c5;
+  text-align: center;
+  font-size: 1rem;
+  color: #4a2c2a;
+}
+
+/* Quantity buttons */
+.qty-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.qty-btn {
+  background: #d9a273;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+}
+
+.qty-btn:hover {
+  background: #c78b5c;
+}
+
+/* Remove button */
+.remove-btn {
+  background: #e6b49a;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.remove-btn:hover {
+  background: #d59f86;
+}
+
+/* Center the total */
+.cart-total {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4a2c2a;
+  font-weight: bold;
+}
+
+/* Move buttons near the total (centered) */
+.cart-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.cart-buttons .btn {
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.checkout-textarea {
+  width: 95%;
+  min-height: 70px;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: vertical;
+}
+.navbar-frame { 
+  width: 100%; 
+  height: 70px; 
+  border: none; 
+  display: block; 
+}

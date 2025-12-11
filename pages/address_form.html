@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter Delivery Address</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../styles/guessAndAdress.css">
+
+
+</head>
+
+<body>
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+
+    <div class="container">
+        <!-- Address form -->
+        <div class="address-card" id="address-card">
+            <h2>🧁</h2>
+            <h2>Where should we deliver your café order?</h2>
+            <p>Your coffee and treats are just a few steps away!</p>
+
+            <input type="text" placeholder="Enter your delivery address..." id="delivery-address" />
+            <input type="text" placeholder="Apartment / Suite / Notes (optional)" id="extra-notes" />
+
+            <div class="divider">Or</div>
+            <button class="location-btn" id="location-btn">📍 Use My Current Location</button>
+
+            <button class="confirm-btn">Confirm Address</button>
+        </div>
+
+        <!-- Map modal -->
+        <div class="map-modal" id="map-modal">
+            <div class="map-header">
+                <button class="close-btn" id="close-map">×</button>
+            </div>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- keep Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- NEW: module script -->
+    <script type="module">
+        import { setDelivery } from "../scripts/delivery.js";
+        import { saveAddressToServer } from "../scripts/addressApi.js";
+
+        const locationBtn = document.getElementById("location-btn");
+        const addressInput = document.getElementById("delivery-address");
+        const notesInput = document.getElementById("extra-notes");
+        const mapModal = document.getElementById("map-modal");
+        const addressCard = document.getElementById("address-card");
+        const closeMapBtn = document.getElementById("close-map");
+        const confirmBtn = document.querySelector(".confirm-btn");
+
+        let map, marker, lastLat = null, lastLng = null;
+
+        async function reverseGeocode(lat, lon) {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+            const data = await response.json();
+            return data.address
+                ? [
+                    data.address.house_number,
+                    data.address.road,
+                    data.address.city || data.address.town || data.address.village,
+                    data.address.state,
+                    data.address.postcode
+                ].filter(Boolean).join(", ")
+                : "Address not found";
+        }
+
+        locationBtn.addEventListener("click", () => {
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                lastLat = latitude; lastLng = longitude;
+
+                mapModal.classList.add("active");
+                addressCard.classList.add("shift-left");
+
+                if (!map) {
+                    map = L.map("map").setView([latitude, longitude], 16);
+                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+                    }).addTo(map);
+
+                    marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
+                    marker.on("dragend", async () => {
+                        const p = marker.getLatLng();
+                        lastLat = p.lat; lastLng = p.lng;
+                        addressInput.value = await reverseGeocode(p.lat, p.lng);
+                    });
+                } else {
+                    map.setView([latitude, longitude], 16);
+                    marker.setLatLng([latitude, longitude]);
+                }
+
+                addressInput.value = await reverseGeocode(latitude, longitude);
+            }, () => alert("Unable to retrieve your location."));
+        });
+
+        closeMapBtn.addEventListener("click", () => {
+            mapModal.classList.remove("active");
+            addressCard.classList.remove("shift-left");
+        });
+
+        //  Save and go to menu
+        confirmBtn.addEventListener("click", async () => {
+            const displayAddress = addressInput.value.trim();
+            if (!displayAddress) return alert("Please enter your delivery address.");
+
+            const payload = {
+                displayAddress,
+                extraNotes: (notesInput.value || "").trim(),
+                lat: lastLat,
+                lng: lastLng
+            };
+
+            const token = localStorage.getItem("authToken");
+            if (token) {
+                const ok = await saveAddressToServer(payload);
+                if (!ok) { alert("Could not save your address. Please try again."); return; }
+            }
+            // keep a local copy for UI convenience
+            setDelivery(payload);
+
+            const next = sessionStorage.getItem("postAddressRedirect") || "profile_dashBoard.html";
+            sessionStorage.removeItem("postAddressRedirect");
+            window.location.href = next;
+        });
+    </script>
+
+</body>
+
+</html>

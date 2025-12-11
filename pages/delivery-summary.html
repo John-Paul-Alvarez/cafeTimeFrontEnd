@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Delivery Summary — CafeTime</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../styles/navbar.css" />
+    <link rel="stylesheet" href="../styles/delivery-summary.css" />
+    <link rel="stylesheet" href="navbar.css">
+</head>
+
+<body>
+    <!-- ===== Top Navbar ===== -->
+    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+
+
+    <!-- ===== Gratitude Message ===== -->
+    <section class="gratitude-banner">
+        <h1>Thank you for ordering with CafeTime!</h1>
+        <p>We hope you enjoyed every sip and bite.</p>
+    </section>
+
+
+    <!-- Centered Summary Layout -->
+    <div class="summary-layout">
+        <div class="summary-container">
+
+            <!--Back Button (outside cards) -->
+            <button id="backBtn" class="back-btn-page">← Back to Deliveries</button>
+
+            <div class="info-card">
+                <div class="row"><span class="label">Order ID</span><span id="orderId" class="value">—</span></div>
+                <div class="row"><span class="label">Status</span><span id="status" class="pill">—</span></div>
+                <div class="row"><span class="label">Delivered At</span><span id="deliveredAt" class="value">—</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Order Summary</h3>
+                <ul id="orderItems" class="order-items-list"></ul>
+
+                <!-- REMOVE total row -->
+                <!-- <div class="row"><span class="label">Total:</span><span id="orderTotal">—</span></div> -->
+
+                <div class="row">
+                    <span class="label">Time Placed:</span>
+                    <span id="orderTime">—</span>
+                </div>
+            </div>
+
+
+            <div class="info-card">
+                <h3>Delivery Address</h3>
+                <p id="addressText">—</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/delivery-summary.js"></script>
+</body>
+
+
+</html>

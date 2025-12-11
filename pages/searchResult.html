@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results — CafeTime</title>
+
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/searchResult.css">
+
+    <style>
+        body {
+            background: #faf3e4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            justify-items: center;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .menu-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(3px);
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            animation: popIn .25s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .add-to-cart-btn {
+            margin-top: 15px;
+            background: #c49a6c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Success modal styling (same modal container as main modal) */
+        #success-modal .modal-content {
+            text-align: center;
+        }
+
+        /* LEFT-ALIGNED SEARCH HEADER */
+        .search-header {
+            text-align: left;
+            font-size: 25px;
+            /* bigger */
+            font-weight: bold;
+            margin: 30px 0 5px 70px;
+            /* moved left */
+            color: #3b2f2f;
+            /* warm dark brown */
+        }
+
+        .search-subtitle {
+            text-align: left;
+            font-size: 15px;
+            /* slightly bigger */
+            margin: 0 0 20px 70px;
+            /* moved left */
+            color: #6b5a4a;
+            /* softer brown */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <iframe src="../pages/navbar.html" class="navbar-frame"></iframe>
+
+    <div id="search-title" class="search-header"></div>
+    <div id="search-subtitle" class="search-subtitle"></div>
+
+    <!-- RESULTS GRID -->
+    <div id="search-grid" class="menu-grid"></div>
+
+    <!-- CUSTOM MODAL -->
+    <div id="sr-modal" class="modal">
+        <div class="modal-content">
+            <span id="sr-close" class="close-btn">&times;</span>
+            <img id="sr-img">
+            <h2 id="sr-name"></h2>
+            <p id="sr-price"></p>
+
+            <div id="sr-options"></div>
+
+            <button id="sr-add-btn" class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content" style="max-width: 300px;">
+            <span id="success-close" class="close-btn">&times;</span>
+
+            <div style="font-size: 48px; margin-bottom: 10px; color: #4CAF50;">
+                ✓
+            </div>
+
+            <h3>Item Added!</h3>
+            <p>Your item has been added to the cart.</p>
+
+            <button id="success-ok" class="add-to-cart-btn" style="width: 100%; margin-top: 15px;">
+                OK
+            </button>
+        </div>
+    </div>
+
+
+    <script type="module" src="../scripts/searchResult.js"></script>
+
+</body>
+
+</html>

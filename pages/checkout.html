@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout - CafeTime</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../styles/styles.css" />
+
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body class="checkout-body">
+
+  <!-- ⭐ SPECIAL NAVBAR (KEEP THIS) ⭐ -->
+  <iframe src="../checkoutNavbar.html" class="navbar-frame"></iframe>
+
+
+  <main class="checkout-layout">
+    <!-- LEFT: Cart -->
+    <section class="checkout-left">
+      <button class="back-link" onclick="history.back()">← Back</button>
+
+      <div class="checkout-left-header">
+        <h1>Shopping Cart</h1>
+        <div class="checkout-left-actions">
+          <a href="newMenuPage.html" class="muted-link">Continue shopping &gt;</a>
+          <button type="button" id="checkout-refresh" class="link-btn danger">
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Error banner -->
+      <div id="checkout-error" class="error-banner" style="display:none;"></div>
+
+      <!-- Empty state -->
+      <div id="checkout-empty" class="empty-banner" style="display:none;">
+        Your cart is empty.
+      </div>
+
+      <!-- Cart table -->
+      <div class="cart-card">
+        <table id="checkout-table" class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Size / Options</th>
+              <th class="center">Quantity</th>
+              <th class="right">Total Price</th>
+            </tr>
+          </thead>
+          <tbody id="checkout-rows"></tbody>
+        </table>
+
+        <!-- Delivery notes -->
+        <div class="checkout-notes-row">
+          <label for="delivery-notes" class="muted">Delivery notes:</label>
+          <textarea id="delivery-notes" class="checkout-textarea"
+            placeholder="Add any instructions for the delivery person (optional)..."></textarea>
+        </div>
+
+        <!-- Discount code -->
+        <div class="checkout-notes-row">
+          <label for="discount-code" class="muted">Discount Code:</label>
+          <div style="display: flex; gap: 0.5rem; width: 100%; margin-top: 6px;">
+            <input id="discount-code" type="text" placeholder="Enter code..." style="flex:1; padding:6px;" />
+            <button id="apply-discount-btn" class="btn small" type="button">Apply</button>
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals-row">
+          <div class="totals-line">
+            <span>Subtotal :</span>
+            <span id="checkout-subtotal" class="totals-value">$0.00</span>
+          </div>
+
+          <div class="totals-line" id="discount-row" style="display:none;">
+            <span>Discount :</span>
+            <span id="checkout-discount" class="totals-value">-$0.00</span>
+          </div>
+
+          <div class="totals-line">
+            <span>Tax (HST 13%) :</span>
+            <span id="checkout-tax" class="totals-value">$0.00</span>
+          </div>
+
+          <div class="totals-line">
+            <span>Shipping :</span>
+            <span class="totals-value">Free</span>
+          </div>
+
+          <div class="totals-line totals-total">
+            <span>Total :</span>
+            <span id="checkout-grand" class="totals-value">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Payment -->
+    <aside class="checkout-right">
+      <div class="payment-card">
+        <h2>Shopping Cart</h2>
+
+        <!-- Payment method -->
+        <div class="payment-section">
+          <div class="payment-label">Payment Method:</div>
+          <div class="payment-options">
+            <label class="radio-row">
+              <input type="radio" name="pay-method" value="google" />
+              <span>Google Pay</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="pay-method" value="apple" />
+              <span>Apple Pay</span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="pay-method" value="card" checked />
+              <span>Credit Card</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Stripe Form -->
+        <form id="payment-form"
+          data-publishable-key="pk_test_51QyjI9RYNRSPf3zJJH8mza2WUBZ7H4bA7HsBeTMzTFlPp2q4SIyICZXHzAzbBXenQhFSlrtFQzaFfBjsI5PQEIta00xJ6WkJxp">
+
+          <div class="field-group">
+            <label>Name On Card</label>
+            <input id="cardholder-name" type="text" placeholder="Enter name on card" />
+          </div>
+
+          <div class="field-group">
+            <label>Card Details</label>
+            <div id="card-element" class="card-element-box"></div>
+          </div>
+
+          <div id="payment-message" class="muted" style="margin-top: 4px;"></div>
+
+          <button type="submit" id="pay-button" class="btn checkout-btn" disabled>
+            Pay
+          </button>
+        </form>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Profile (if logged in) -->
+  <script>
+    const profileLink = document.getElementById("profile-link");
+    const storedName = localStorage.getItem("currentUserName");
+    if (profileLink && storedName) profileLink.textContent = storedName;
+  </script>
+
+  <script type="module" src="../scripts/checkout.js"></script>
+
+</body>
+
+</html>
