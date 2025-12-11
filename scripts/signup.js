@@ -98,7 +98,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     }
 
     // SUCCESS → go to dashboard
-    window.location.href = "dashboard.html";
+    window.location.href = "profile_dashBoard.html";
 
   } catch (error) {
     console.error("Signup network error:", error);
