@@ -1,3 +1,6 @@
+// auth.js
+import { API_BASE } from "./config.js";
+
 // Simple auth helpers
 export function getToken() {
   return localStorage.getItem("authToken");
@@ -10,7 +13,7 @@ export function isLoggedIn() {
 export function logout() {
   localStorage.removeItem("authToken");
   localStorage.removeItem("guestDeliveryAddress");
-  localStorage.removeItem("guestMode"); // optional choice
+  localStorage.removeItem("guestMode");
   window.location.href = "signin.html";
 }
 
@@ -21,18 +24,18 @@ export async function fetchWithAuth(url, options = {}) {
   return fetch(url, { ...options, headers });
 }
 
-// New helper: enforce auth on private pages
+// Enforce login for private pages
 export async function requireAuth() {
   const token = getToken();
   if (!token) {
-    logout(); // no token at all
+    logout();
     return;
   }
 
   try {
-    const resp = await fetchWithAuth("http://localhost:5000/api/auth/me");
+    const resp = await fetchWithAuth(`${API_BASE}/api/auth/me`);
     if (!resp.ok) {
-      logout(); // invalid/expired token
+      logout();
     }
   } catch (e) {
     console.error("Auth check failed:", e);
