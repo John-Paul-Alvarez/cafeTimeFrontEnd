@@ -1,5 +1,5 @@
 // signin.js
-// import { API_BASE } from "./config.js";  // if you use a config file
+import { API_BASE } from "./config.js";
 
 document.getElementById("signin-form").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -8,13 +8,14 @@ document.getElementById("signin-form").addEventListener("submit", async (event) 
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/auth/login", {
+    // LOGIN REQUEST
+    const response = await fetch(`${API_BASE}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
     });
 
-    // Try to parse JSON even on errors so we can show a message
+    // Attempt to parse JSON for errors or success
     let result;
     try {
       result = await response.json();
@@ -27,43 +28,46 @@ document.getElementById("signin-form").addEventListener("submit", async (event) 
       return;
     }
 
-    // OK: store token
+    // SAVE TOKEN
     if (result.token) {
       localStorage.setItem("authToken", result.token);
-
-      // Merge guest cart -> server
-      const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
-      if (guestCart.length) {
-        await Promise.all(
-          guestCart.map((item) =>
-            fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/cart/add", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${result.token}`,
-              },
-              body: JSON.stringify({
-                itemId: item.itemId,
-                size: item.customizations?.size ?? null,
-                milk: item.customizations?.milk ?? null,
-                sugar: item.customizations?.sugar ?? null,
-                heat: item.customizations?.heat ?? null,
-              }),
-            })
-          )
-        );
-        localStorage.removeItem("guestCart");
-      }
+    } else {
+      alert("Login succeeded but no token was returned.");
+      return;
     }
 
-    // They are no longer a guest
+    // ---- MERGE GUEST CART TO SERVER ----
+    const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+    if (guestCart.length && result.token) {
+      await Promise.all(
+        guestCart.map((item) =>
+          fetch(`${API_BASE}/api/cart/add`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${result.token}`,
+            },
+            body: JSON.stringify({
+              itemId: item.itemId,
+              size: item.customizations?.size ?? null,
+              milk: item.customizations?.milk ?? null,
+              sugar: item.customizations?.sugar ?? null,
+              heat: item.customizations?.heat ?? null,
+            }),
+          })
+        )
+      );
+      localStorage.removeItem("guestCart");
+    }
+
+    // NOT A GUEST ANYMORE
     localStorage.removeItem("guestMode");
 
-    // 1) If a LOCAL guest address exists, save it to the SERVER once
+    // ---- PROMOTE LOCAL ADDRESS → SERVER ----
     try {
       const localAddr = JSON.parse(localStorage.getItem("guestDeliveryAddress") || "null");
-      if (localAddr?.displayAddress && result?.token) {
-        await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
+      if (localAddr?.displayAddress && result.token) {
+        await fetch(`${API_BASE}/api/account/address`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -71,34 +75,35 @@ document.getElementById("signin-form").addEventListener("submit", async (event) 
           },
           body: JSON.stringify(localAddr),
         });
-        // Optional: keep localAddr for UI or clear it; your call.
-        // localStorage.removeItem("guestDeliveryAddress");
       }
-    } catch (e) {
-      console.warn("Address save to server failed (will continue):", e);
+    } catch (err) {
+      console.warn("Address promotion failed (continuing):", err);
     }
 
-    // 2) If the SERVER still has no address, ask once
+    // ---- CHECK IF SERVER HAS ADDRESS ----
     try {
-      if (result?.token) {
-        const resAddr = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
+      if (result.token) {
+        const resAddr = await fetch(`${API_BASE}/api/account/address`, {
           headers: { "Authorization": `Bearer ${result.token}` }
         });
+
         if (resAddr.ok) {
           const { deliveryAddress } = await resAddr.json();
+
           if (!deliveryAddress || !deliveryAddress.displayAddress) {
-            sessionStorage.setItem("postAddressRedirect", "dashboard.html");
-            window.location.href = "address_form.html"; // (logged-in page; DO NOT set guestMode here)
+            sessionStorage.setItem("postAddressRedirect", "profile_dashBoard.html");
+            window.location.href = "address_form.html";
             return;
           }
         }
       }
-    } catch (e) {
-      console.warn("Address fetch check failed (will continue):", e);
+    } catch (err) {
+      console.warn("Address check failed (continuing):", err);
     }
 
-    // redirect after success
+    // FINAL REDIRECT — SUCCESS
     window.location.href = "profile_dashBoard.html";
+
   } catch (error) {
     console.error("Login network error:", error);
     alert("Network error. Please try again.");

@@ -1,5 +1,5 @@
 // signup.js
-// import { API_BASE } from "./config.js";  // if you use a config file
+import { API_BASE } from "./config.js";
 
 document.getElementById("signup-form").addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -9,7 +9,8 @@ document.getElementById("signup-form").addEventListener("submit", async function
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/auth/signup", {
+    // SIGN UP REQUEST
+    const response = await fetch(`${API_BASE}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password })
@@ -27,23 +28,21 @@ document.getElementById("signup-form").addEventListener("submit", async function
       return;
     }
 
-    // Store token
+    // SAVE TOKEN
     if (result.token) {
       localStorage.setItem("authToken", result.token);
     } else {
-      // safety: if no token returned, bail
       alert("Signup succeeded but no token was returned.");
       return;
     }
 
-    // ---- Same behavior as signin ----
-
-    // 1) Merge guest cart -> server
+    // ---- MERGE GUEST CART TO SERVER ----
     const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
     if (guestCart.length) {
       await Promise.all(
         guestCart.map((item) =>
-          fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/cart/add", {
+          fetch(`${API_BASE}/api/cart/add`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -62,14 +61,14 @@ document.getElementById("signup-form").addEventListener("submit", async function
       localStorage.removeItem("guestCart");
     }
 
-    // 2) They are no longer a guest
+    // USER IS NO LONGER A GUEST
     localStorage.removeItem("guestMode");
 
-    // 3) If a LOCAL guest address exists, save it to the SERVER once (promote it)
+    // ---- PROMOTE LOCAL GUEST ADDRESS → SERVER ----
     try {
       const localAddr = JSON.parse(localStorage.getItem("guestDeliveryAddress") || "null");
       if (localAddr?.displayAddress) {
-        await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
+        await fetch(`${API_BASE}/api/account/address`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -77,32 +76,33 @@ document.getElementById("signup-form").addEventListener("submit", async function
           },
           body: JSON.stringify(localAddr),
         });
-        // Optional: if you prefer server-only after login:
-        // localStorage.removeItem("guestDeliveryAddress");
       }
     } catch (e) {
-      console.warn("Address promotion failed (continuing):", e);
+      console.warn("Address promotion failed:", e);
     }
 
-    // 4) If the SERVER still has no address, ask once on the logged-in address page
+    // ---- CHECK IF SERVER HAS ADDRESS ----
     try {
-      const resAddr = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
+      const resAddr = await fetch(`${API_BASE}/api/account/address`, {
         headers: { "Authorization": `Bearer ${result.token}` }
       });
+
       if (resAddr.ok) {
         const { deliveryAddress } = await resAddr.json();
         if (!deliveryAddress || !deliveryAddress.displayAddress) {
           sessionStorage.setItem("postAddressRedirect", "profile_dashBoard.html");
-          window.location.href = "address_form.html"; // logged-in capture page (do NOT set guestMode here)
+          window.location.href = "address_form.html";
           return;
         }
       }
     } catch (e) {
-      console.warn("Address presence check failed (continuing):", e);
+      console.warn("Address presence check failed:", e);
     }
 
-    // 5) Otherwise go to dashboard
-    window.location.href = "dashboard.html";
+    // ---- REDIRECT TO DASHBOARD ----
+    await new Promise(res => setTimeout(res, 150)); // prevent race condition
+    window.location.href = "profile_dashBoard.html";
+
   } catch (error) {
     console.error("Signup network error:", error);
     alert("Network error. Please try again.");
