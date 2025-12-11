@@ -38,7 +38,7 @@ window.addEventListener("click", e => {
   let currentSub = null;
 
   try {
-    const res = await fetch(`${API_BASE}/api/menu`);
+    const res = await fetch(`${API_BASE}/api/Menu`);
     allItems = await res.json();
 
     renderMenu(allItems);
