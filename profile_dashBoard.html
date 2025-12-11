@@ -11,10 +11,11 @@
 
     <!-- gate: require login -->
     <script type="module">
-        import { requireAuth, logout } from "scripts/auth.js";
+        import { requireAuth, logout } from "./scripts/auth.js";
         window.logout = logout;
         requireAuth();
     </script>
+
 </head>
 
 <body>
