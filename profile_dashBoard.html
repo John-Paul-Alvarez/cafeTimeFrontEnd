@@ -7,11 +7,11 @@
     <title>Profile — Cafe</title>
 
     <!-- styles for this page -->
-    <link rel="stylesheet" href="../styles/profile_dashBoard.css" />
+    <link rel="stylesheet" href="styles/profile_dashBoard.css" />
 
     <!-- gate: require login -->
     <script type="module">
-        import { requireAuth, logout } from "../scripts/auth.js";
+        import { requireAuth, logout } from "scripts/auth.js";
         window.logout = logout;
         requireAuth();
     </script>
@@ -19,7 +19,7 @@
 
 <body>
     <!-- ===== Top Navbar ===== -->
-    <iframe src="../navbar.html" class="navbar-frame"></iframe>
+    <iframe src="navbar.html" class="navbar-frame"></iframe>
 
 
 
@@ -99,7 +99,7 @@
     </main>
 
     <!-- page logic -->
-    <script type="module" src="../scripts/profile_dashBoard.js"></script>
+    <script type="module" src="scripts/profile_dashBoard.js"></script>
 </body>
 
 </html>

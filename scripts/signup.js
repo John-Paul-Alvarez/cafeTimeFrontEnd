@@ -1,5 +1,5 @@
 // signup.js
-import { API_BASE } from "./config.js";
+// import { API_BASE } from "./config.js";  // if you use a config file
 
 document.getElementById("signup-form").addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -9,7 +9,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch(`${API_BASE}/api/auth/signup`, {
+    const response = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password })
@@ -31,16 +31,19 @@ document.getElementById("signup-form").addEventListener("submit", async function
     if (result.token) {
       localStorage.setItem("authToken", result.token);
     } else {
+      // safety: if no token returned, bail
       alert("Signup succeeded but no token was returned.");
       return;
     }
 
-    // ---- Merge guest cart → server ----
+    // ---- Same behavior as signin ----
+
+    // 1) Merge guest cart -> server
     const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
     if (guestCart.length) {
       await Promise.all(
         guestCart.map((item) =>
-          fetch(`${API_BASE}/api/cart/add`, {
+          fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/cart/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -59,14 +62,14 @@ document.getElementById("signup-form").addEventListener("submit", async function
       localStorage.removeItem("guestCart");
     }
 
-    // No longer a guest
+    // 2) They are no longer a guest
     localStorage.removeItem("guestMode");
 
-    // Promote local guest delivery address → server address (ONLY once)
+    // 3) If a LOCAL guest address exists, save it to the SERVER once (promote it)
     try {
       const localAddr = JSON.parse(localStorage.getItem("guestDeliveryAddress") || "null");
       if (localAddr?.displayAddress) {
-        await fetch(`${API_BASE}/api/account/address`, {
+        await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -74,32 +77,32 @@ document.getElementById("signup-form").addEventListener("submit", async function
           },
           body: JSON.stringify(localAddr),
         });
+        // Optional: if you prefer server-only after login:
+        // localStorage.removeItem("guestDeliveryAddress");
       }
     } catch (e) {
-      console.warn("Address promotion failed:", e);
+      console.warn("Address promotion failed (continuing):", e);
     }
 
-    // Check if user has server address; if not → ask them to add one
+    // 4) If the SERVER still has no address, ask once on the logged-in address page
     try {
-      const resAddr = await fetch(`${API_BASE}/api/account/address`, {
+      const resAddr = await fetch(/* `${API_BASE}` */ "http://localhost:5000" + "/api/account/address", {
         headers: { "Authorization": `Bearer ${result.token}` }
       });
-
       if (resAddr.ok) {
         const { deliveryAddress } = await resAddr.json();
         if (!deliveryAddress || !deliveryAddress.displayAddress) {
           sessionStorage.setItem("postAddressRedirect", "profile_dashBoard.html");
-          window.location.href = "address_form.html";
+          window.location.href = "address_form.html"; // logged-in capture page (do NOT set guestMode here)
           return;
         }
       }
     } catch (e) {
-      console.warn("Address check failed:", e);
+      console.warn("Address presence check failed (continuing):", e);
     }
 
-    // SUCCESS → go to dashboard
-    window.location.href = "profile_dashBoard.html";
-
+    // 5) Otherwise go to dashboard
+    window.location.href = "dashboard.html";
   } catch (error) {
     console.error("Signup network error:", error);
     alert("Network error. Please try again.");

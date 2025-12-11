@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <title>Order Confirmation - CafeTime</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="../styles/styles.css" />
+  <link rel="stylesheet" href="styles/styles.css" />
 </head>
+
 <body class="checkout-body">
   <!-- ⭐ SPECIAL NAVBAR (KEEP THIS) ⭐ -->
-  <iframe src="../navbar.html" class="navbar-frame"></iframe>
+  <iframe src="navbar.html" class="navbar-frame"></iframe>
 
 
   <main style="max-width:900px;margin:40px auto;padding:20px;">
@@ -22,7 +24,7 @@
   </main>
 
   <script>
-    (function() {
+    (function () {
       const KEY = 'latestGuestOrder';
       const el = document.getElementById('confirm-content');
       try {
@@ -36,8 +38,8 @@
         let html = `<p>Thank you, <strong>${order.personal.name}</strong> — your order <strong>${order.id}</strong> has been placed.</p>`;
         html += `<p><strong>Total:</strong> $${Number(order.totals.grand).toFixed(2)}</p>`;
         html += `<h3>Items</h3><ul>`;
-        (order.items||[]).forEach(it => {
-          html += `<li>${it.name} — ${it.quantity} × $${Number(it.unitPrice||0).toFixed(2)} = $${Number(it.totalPrice||0).toFixed(2)}</li>`;
+        (order.items || []).forEach(it => {
+          html += `<li>${it.name} — ${it.quantity} × $${Number(it.unitPrice || 0).toFixed(2)} = $${Number(it.totalPrice || 0).toFixed(2)}</li>`;
         });
         html += `</ul>`;
         html += `<h4>Delivery</h4>`;
@@ -53,11 +55,12 @@
 
         // clear session storage so data doesn't persist
         sessionStorage.removeItem(KEY);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
         el.innerHTML = `<p>Unable to load confirmation details.</p>`;
       }
     })();
   </script>
 </body>
+
 </html>
