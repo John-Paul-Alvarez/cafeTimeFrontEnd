@@ -3,6 +3,7 @@ import { API_BASE } from "./config.js";
 import { getGuestCart } from "./cartStorage.js";
 import { getDelivery } from "./delivery.js";
 
+
 /** Config */
 const TAX_RATE = 0.13;
 
@@ -139,7 +140,8 @@ function render(items) {
   }
 
   payBtn.textContent = items.length ? `Pay ${fmt(t.grand)}` : "Pay";
-  payBtn.disabled = !items.length;
+  payBtn.disabled = items.length === 0;
+
 }
 
 /* ================= LOAD CART ================= */
@@ -175,6 +177,11 @@ async function fetchCart() {
 
   renderNotes();
 }
+
+if (currentItems.length > 0) {
+  payBtn.disabled = false;
+}
+
 
 /* ================= CART MUTATIONS ================= */
 
@@ -301,17 +308,25 @@ let stripe, elements, cardEl;
 
 function initStripe() {
   const pubKey = payForm?.dataset.publishableKey;
-  if (!pubKey) return;
+
+  if (!pubKey) {
+    console.error("❌ No Stripe publishable key found!");
+    return;
+  }
 
   stripe = Stripe(pubKey);
   elements = stripe.elements();
   cardEl = elements.create("card");
   cardEl.mount("#card-element");
+
+  console.log("✔ Stripe initialized");
 }
 
 if (payForm) {
   payForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    console.log("✔ Pay button clicked");
 
     if (!isLoggedIn()) {
       paymentMsg.textContent = "You must be logged in to complete payment.";
@@ -323,16 +338,25 @@ if (payForm) {
     payBtn.disabled = true;
 
     try {
-      const { token: stripeToken, error } = await stripe.createToken(cardEl);
-      if (error) throw new Error(error.message);
+const { token: stripeToken, error } = await stripe.createToken(cardEl);
 
-      const deliveryNotes = notesInput?.value || "";
+// If Stripe fails → STOP checkout
+if (error || !stripeToken) {
+  console.error("❌ Stripe token failed:", error || "Stripe returned no token");
+  paymentMsg.textContent = error?.message || "Payment error: Invalid card details.";
+  paymentMsg.className = "warning";
+  payBtn.disabled = false;
+  return;
+}
 
-      const orderItems = currentItems.map((it) => ({
-        name: it.name,
-        quantity: it.quantity,
-        unitPrice: Number(it.unitPrice || it.price || 0),
-        totalPrice: Number(it.totalPrice || 0),
+// Continue building the payload since Stripe token is valid
+const deliveryNotes = notesInput?.value || "";
+
+const orderItems = currentItems.map((it) => ({
+  name: it.name,
+  quantity: it.quantity,
+  unitPrice: Number(it.unitPrice || it.price || 0),
+  totalPrice: Number(it.totalPrice || 0),
       }));
 
       const res = await fetch(`${API_BASE}/api/payment/process`, {
