@@ -79,4 +79,35 @@
   <script type="module" src="scripts/cart.js"></script>
 </body>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const guestBtn = document.getElementById("guest-btn");
+
+    const token = localStorage.getItem("authToken");
+    const guestMode = localStorage.getItem("guestMode") === "1";
+
+    // If user is logged in → HIDE Guest button
+    if (token) {
+      guestBtn.style.display = "none";
+    }
+    // If user is NOT logged in → SHOW Guest button
+    else {
+      guestBtn.style.display = "inline-block";
+    }
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const checkoutBtn = document.getElementById("checkout-btn");
+    const token = localStorage.getItem("authToken");
+
+    // If user is NOT logged in → hide checkout button
+    if (!token) {
+      checkoutBtn.style.display = "none";
+    } else {
+      checkoutBtn.style.display = "inline-block";
+    }
+  });
+</script>
+
 </html>
